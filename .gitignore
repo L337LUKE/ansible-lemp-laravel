@@ -1,0 +1,5 @@
+# Ansible Specific
+.vault_pass
+
+# System Files
+.DS_Store

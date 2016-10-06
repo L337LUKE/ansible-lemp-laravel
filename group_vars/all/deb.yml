@@ -1,0 +1,44 @@
+---
+# Deployed Application Details
+
+# Usernames to add to each server
+
+# User that will run and
+# deploy the application
+appuser_username: appuser
+
+# An admin user which will
+# be allowed to run sudo commands
+admin_username: appadmin
+
+# The name of our application
+# (machine-readable)
+app_name: testapp
+
+# User passwords for our users
+# See - vault.yml
+admin_password:   "{{ vault_appadmin_password }}"
+appuser_password: "{{ vault_appuser_password }}"
+
+# Your local public key, e.g. ~/.ssh/id_rsa.pub
+# This will be added to the "authorized_keys" file on
+# every server, so we can SSH into those servers from our
+# local machines (e.g. your laptop)
+local_authorized_key: '~/.ssh/id_testapp.pub'
+
+# GitHub Webhook secret, must be known to GitHub and to our web listener
+# which listens for webhooks sent from GitHub.
+# >>> This MUST BE added to the WebHook configuration within your GitHub repository
+webhook_secret: "{{ vault_webhook_secret }}"
+
+# The GitHub private key that exists on each web server.
+# The corresponding Public key should be added to Github for the
+# deployed repository. This is added to the Web servers so they
+# can access the github repository during deployment
+# >>> This is the content of `id_testapp_github`
+github_private_key: "{{ vault_private_github_key }}"
+
+# The public key that should be added to Github
+# for the deployed repository.
+# >>> This is the content of `id_testapp_github.pub`
+github_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNNRo+iH0pwbEEoex3We/TaR6g6vMSlRGbb1AoO4PeT/VahN+h8J7NK1Syzgy4Yh1Ee2ZGyHSsDSYsE9AUOjUDIwhuwpz1OlFBucThPugbxrQcYAqyzPjXuOYUdAH6LlIo+ByTUmlRqEbd2I5ypy8Wjjnoc1b6c/uhRXrsFH7OlPhpshKw9DXDq76vwLMQa6PfZaHy59Eagik4gRJkMS4TeSbO344Uh9g3IkRS5oI2a6AHFjRBLWWgHldEb6Eter4lzP/9JQmE9Z9r5r4m6zO2eYn0DikXm/h8e5U5pDsn4ND84Ts2zoaiPTvqGniBCA3R9HnsgosE1hCvEjBFFKLDob2sbwi+XfDftl+hM9y5YDV/PaEhYupISnTbapumjxrDRM0S9qCJCjiCFlc3RbfhhUyIIjgNwFk73RPns9r2o4QhMBNNbw8zPdYstPnzezV6KNPAoFEfnB7kl53A07FYw1Pfoh7hGDPUDWyF0E8zGnxfJrML33TfsOFDPjAxxn5JbUVolHVJ3rEZ8EB+zRJpOWyhKtrKD1uyDg/QZc0ACV1RZL03ihMcQ3Rj/iCT6eiFY/5IG4JKScdVCSEG+P7dX50VhOpDl/1cWQxt1Kywy9aR/4wqHnUqe2i5iZ8ZIDV1AG8z6JUJ3pykEzQENsYEii29CE2MFjJLljHdtyZRgw== luke@weareadaptable.com 

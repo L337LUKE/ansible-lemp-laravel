@@ -6,3 +6,5 @@
   roles:
   - server-base
   - user
+  - nginx
+  - php

@@ -1,0 +1,61 @@
+---
+# Passwords for the appuser and admin user
+vault_appadmin_password: '$6$rounds=656000$0Stciq/f96HRidMV$lC/S/TMH.Db6T0e.vNv7Ozl9nUiMyluLldRtb.hWsL5o.x2kaVCjjGg0xbdWFjzHXiYijNUQC6o0NILSoIgTH.'
+vault_appuser_password: '$6$rounds=656000$0Stciq/f96HRidMV$lC/S/TMH.Db6T0e.vNv7Ozl9nUiMyluLldRtb.hWsL5o.x2kaVCjjGg0xbdWFjzHXiYijNUQC6o0NILSoIgTH.'
+
+# Secret for github webhook
+vault_webhook_secret: '24521'
+
+# SSH Keys for Github / Internal server use
+vault_private_github_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    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
+    -----END RSA PRIVATE KEY-----

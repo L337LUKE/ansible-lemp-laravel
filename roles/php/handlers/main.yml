@@ -1,0 +1,7 @@
+---
+# Debian/Ubuntu
+- name: Start PHP5-FPM
+  service: name=php5-fpm state=started
+
+- name: Restart PHP5-FPM
+  service: name=php5-fpm state=restarted

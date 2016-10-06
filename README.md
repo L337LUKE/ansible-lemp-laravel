@@ -30,3 +30,28 @@ sudo apt-get update
 sudo apt-get install ansible
 ```
 
+## Running Ansible
+
+```bash
+cd ~/path/to/deploy-dist
+
+# Check our Yaml Syntax
+
+ansible-playbook --private-key=~/.ssh/id_testapp \
+-i hosts \
+--syntax-check \
+provision.yml
+
+# Run Everything!
+
+ansible-playbook --private-key=~/.ssh/.pem \
+-i hosts \
+provision.yml
+
+# Or, Limit runs by host
+# In this example, we run only load_balancer tasks
+
+ansible-playbook --private-key=~/.ssh/fideloperllc.pem \
+-i hosts --limit=load_balancer \
+provision.yml
+```

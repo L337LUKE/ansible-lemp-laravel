@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/ansible":{"guestpath":"/home/vagrant/ansible","hostpath":"/Users/luke/Ansible/test_environments/ubuntu_lemp","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/luke/Ansible/test_environments/ubuntu_lemp","disabled":false,"__vagrantfile":true}}}

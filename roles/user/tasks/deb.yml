@@ -4,5 +4,5 @@
     name: '{{ admin_username }}'
     groups: sudo
     append: yes
-    password: '{{ admin_password }}'
+    password: '{{ vault_appadmin_password }}'
     shell: /bin/bash

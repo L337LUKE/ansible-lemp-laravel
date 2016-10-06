@@ -1,8 +1,4 @@
 ---
-# RedHat or CentOS
-- include: rpm.yml
-  when: "ansible_os_family == 'RedHat'"
-
 # Debian or Ubuntu
 - include: deb.yml
   when: "ansible_os_family == 'Debian'"
@@ -16,7 +12,7 @@
 - name: Add Application User
   user:
     name: '{{ appuser_username }}'
-    password: '{{ appuser_password }}'
+    password: '{{ vault_appuser_password }}'
     shell: /bin/bash
     generate_ssh_key: yes
     ssh_key_bits: 4096
@@ -25,8 +21,3 @@
   authorized_key:
     user: '{{ appuser_username }}'
     key: "{{ lookup('file', local_authorized_key) }}"
-
-- name: Enable Build Server Access to Appuser
-  authorized_key:
-    user: '{{ appuser_username }}'
-    key: "{{ internal_public_key }}"
