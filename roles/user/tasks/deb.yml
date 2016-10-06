@@ -1,0 +1,8 @@
+---
+- name: Add Admin User
+  user:
+    name: '{{ admin_username }}'
+    groups: sudo
+    append: yes
+    password: '{{ admin_password }}'
+    shell: /bin/bash

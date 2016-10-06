@@ -1,0 +1,35 @@
+---
+- name: Install Server Basics
+  yum:
+    name: '{{ item }}'
+    state: present
+    update_cache: true
+  with_items:
+    - epel-release
+    - acl
+    - ntp
+    - wget
+    - curl
+    - vim
+    - ack
+    - the_silver_searcher
+    - git
+    - unzip
+    - htop
+    - tmux
+    - yum-cron
+
+- name: Configure Automatic Updates
+  copy:
+    src: yum-cron.conf
+    dest: /etc/yum/yum-cron.conf
+    owner: root
+    group: root
+  notify:
+    - Restart yum-cron
+
+- name: Start yum-cron
+  service:
+    name: yum-cron
+    state: running
+    enabled: yes

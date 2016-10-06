@@ -1,0 +1,3 @@
+# Here we define all our local connections
+[local]
+127.0.0.1   ansible_connection=local ansible_user=vagrant
