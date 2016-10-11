@@ -2,8 +2,7 @@
 # Copy this file and fill out the ips under the groups
 #
 # Most likely if you're provisioning a vagrant machine you will keep the current set
-
-[all]
+[default]
 127.0.0.1   ansible_connection=local    ansible_user=vagrant
 
 [web]
