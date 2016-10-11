@@ -1,0 +1,5 @@
+---
+- name: Install ansible-galaxy roles 
+  command: "ansible-galaxy install -r /vagrant -R requirements.txt --ignore-errors"
+
+  
