@@ -1,6 +1,0 @@
----
-# Generate a GitHub access token for Composer
-# to use as per
-# https://help.github.com/articles/creating-an-access-token-for-command-line-use/
-github_token: "{{ vault_github_token }}" 
-
