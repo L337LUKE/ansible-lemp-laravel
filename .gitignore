@@ -4,6 +4,7 @@ vault.yml
 *.yml.retry
 telusdigital.apt-repository/
 telusdigital.logrotate/
+hosts
 
 # Vagrant
 .vagrant/
