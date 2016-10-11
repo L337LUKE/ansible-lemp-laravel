@@ -1,7 +1,7 @@
 # Ansible Specific
 .vault_pass
 vault.yml
-*.yml.retry
+*.retry
 telusdigital.apt-repository/
 telusdigital.logrotate/
 hosts
