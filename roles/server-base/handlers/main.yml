@@ -1,9 +1,4 @@
 ---
-- name: Restart yum-cron
-  service:
-    name: yum-cron
-    state: restarted
-
 - name: Restart Unattended Upgrades
   service:
     name: unattended-upgrades
