@@ -1,5 +1,14 @@
 # Ansible Specific
 .vault_pass
+vault.yml
+*.yml.retry
+telusdigital.apt-repository/
+telusdigital.logrotate/
+
+# Vagrant
+.vagrant/
 
 # System Files
 .DS_Store
+.bash_history
+.cache
