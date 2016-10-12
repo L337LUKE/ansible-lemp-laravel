@@ -1,2 +1,0 @@
-telusdigital.logrotate
-telusdigital.apt-repository
