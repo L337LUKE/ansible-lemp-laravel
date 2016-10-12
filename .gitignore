@@ -2,9 +2,11 @@
 .vault_pass
 vault.yml
 *.retry
+hosts
+
+# Ansible roles installed through galaxy
 telusdigital.apt-repository/
 telusdigital.logrotate/
-hosts
 
 # Vagrant
 .vagrant/

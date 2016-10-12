@@ -1,8 +1,0 @@
----
-# This file will ensure all the appropriate galaxy roles
-# have been installed before continuing
-- hosts: all
-  become: true
-  become_method: sudo
-  roles:
-    - install-dependencies

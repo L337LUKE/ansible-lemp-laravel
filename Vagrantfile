@@ -7,6 +7,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # The box we want to pull in, in this case ubuntu 14.04
   config.vm.box = "ubuntu/trusty64"
 
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+    v.cpus = 2
+  end
+
   # Forward ports so we can test nginx and that frontends load
   config.vm.network "forwarded_port", guest: 80, host: 8080
   
@@ -18,11 +23,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # See https://github.com/mitchellh/vagrant/issues/5005
   config.ssh.insert_key = false
 
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = 'dependencies.yml'
-  end
-
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = 'provision.yml'
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.galaxy_role_file    = "requirements.yml"
+    ansible.playbook            = 'provision.yml'
+    ansible.inventory_path      = "hosts"
+    ansible.verbose             = true
+    ansible.install             = true
   end
 end
