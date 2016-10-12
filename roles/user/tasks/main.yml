@@ -11,7 +11,7 @@
 - name: Enable Remote (person) Access to Admin
   authorized_key:
     user: '{{ admin_username }}'
-    key: "{{ lookup('file', local_authorized_key) }}"
+    key: "{{ local_authorized_key }}"
 
 # User that will be using our application
 - name: Add Application User
@@ -25,4 +25,4 @@
 - name: Enable Remote (Person) Access to Appuser
   authorized_key:
     user: '{{ appuser_username }}'
-    key: "{{ lookup('file', local_authorized_key) }}"
+    key: "{{ local_authorized_key }}"
