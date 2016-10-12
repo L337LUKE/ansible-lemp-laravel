@@ -12,11 +12,11 @@
 
 - name: Install Packages | apt
   apt:
-    state: latest
+    state: installed
     pkg: "{{ item }}"
   with_items:
-    - mariadb-server
     - python-mysqldb
+    - mariadb-server
   when: mariadb_server
 
 - name: Install Packages | apt
