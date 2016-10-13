@@ -108,6 +108,8 @@ You don't need to login to your VM in order to run Ansible as we
 use the `ansible provisioner` provided by Vagrant which allows us 
 to install it on `vagrant up`.
 
+A Vagrantfile is also included in the project so you can just place this in the same directory and everything should be good to go.
+
 ```bash
 # First time installation
 $ vagrant up
