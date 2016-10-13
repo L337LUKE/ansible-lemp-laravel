@@ -10,88 +10,140 @@ Thre will be an optional extra soon to include;
 
 <br>
 
-## Prerequisites (packages)
+## Getting Started
 
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Install [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-on-mac-osx)
+Install these first
+
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads)  
+- [Vagrant](https://www.vagrantup.com/downloads.html)  
+- [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-on-mac-osx)
+
+
+## Installation
+
+First of all take a look at the `group_vars/all/main.yml` which is you will need to update with your project specific configuration.
+
+## Ansible-Vault & Security
+
+Sensitive files can be a pain but Ansible makes this a breeze.
+
+Begin by copying the `vault.example.yml` template in `group_vars/all/` to `vault.yml`.
+
+Once you've done that, open it up and place all your sensitive information here passwords, API keys, tokens, etc.
+
+#### Things to note:
+
+1. All variables must be prefixed with a `vault_` prefix
+2. Files should not be committed to version control, they are highly sensitive
+   and will give away sever login details
+3. You can add a further security measure for passwords here by creating a SHA512 (see below)
+4. in the root of the playbook you can create a `.vault_pass` (see below)
+5. You need to remember to encrypt the file using the `ansible_vault` command
+
+#### Create SHA512
+
+Sometimes even though the file will be encrytped you might want a further
+layer of security.
+
+Visit the following link:  
+http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+
+#### Vault Pass
+
+The `.vault_pass` file is a quick way for you to edit the `vault.yml`
+without having to type the password each time you want to do so.
+
+Create a `.vault_pass` file in the root of the playbook which is just one line
+containing the password, so if your password is `password134` (never use password as your password)
+you would just simply put that.
+
+#### Encrypting vault.yml
+
+To encrypt the vault file, assuming you have a `.vault_pass` file is as simple
+as running the following command (from the root of your playbook).  This will use the password in .vault_pass so you don't have to worry about it!
+
+`ansible_vault encrypt group_vars/all/vault.yml`
+
+This will encrypt the file and if you try to edit it, it will just appear to be jargon.
+
+To edit the file you run
+
+`ansible_vault edit group_vars/all/vault/yml`
+
+A good habbit to get into is to not unencrypt the file as you may forget and leave this open for anyone to view/edit
 
 <br>
 
-### Running on virtual machine/host
+## Generate Your SSH keys
 
+Next you need to generate SSH keys to place in your `provision.yml` file.
 
+These will be used to connect to your server as the appuser/appadmin and allow
+the server to talk to github to pull down/interact with your repo.
 
-This setup will show you how to get setup on your host machine.
-
-```bash
-# Login to your vagrant VM
-vagrant ssh
-
-```
-
-<br>
-
-```bash
-# Install Python / ansible (you might have python already)
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
-``` 
-
-<br>
-
-Now you need to just generate an SSH key defined in your `provision.yml`
+You can use the below to generate your ssh keys
 
 ```bash
 # Required for ansible to talk to login through SSH and run commands
-ssh-keygen -t rsa -b 4096 -C "luke@weareadaptable.com" -f id_testapp
+ssh-keygen -t rsa -b 4096 -C "example@example.com" -f ~/.ssh/id_testapp
 
 # Required in order to authenticate with github
-ssh-keygen -t rsa -b 4096 -C "luke@weareadaptable.com" -f id_testapp_github
+ssh-keygen -t rsa -b 4096 -C "example@example.com" -f ~/.ssh/id_testapp_github
+```
+
+Once you've done this, place the raw public key files into the `group_vars/all/main.yml` file
+and the easiest way to do this is.
+
+```bash
+# Take the contents of the public SSH key and place into your clipboard
+$ cat ~/.ssh/id_testapp.pub | pbcopy
+
+# Now just paste where appropriate!
+```
+
+## Running on virtual machine/host
+
+You don't need to login to your VM in order to run Ansible as we 
+use the `ansible provisioner` provided by Vagrant which allows us 
+to install it on `vagrant up`.
+
+```bash
+# First time installation
+$ vagrant up
+
+# If you need to re-provision after altering config
+$ vagrant reload --provision
 ```
 
 <br>
 
-Now you should be ready to run ansible related commands, however to be sure  
-check it works by running `ansible --version`.
+## Ansible.cfg
+
+There is an additional config file but you will most likely never need to touch this, but further info for configuring this can be found in the [ansible docs](http://docs.ansible.com/ansible/intro_configuration.html).
+
+**Never** Much like the vault section above never add these to your VCS.
 
 <br>
 
-## Before you get started
+## Hosts file
 
-Before you jump into running playbooks straight away you need to make sure you  
-have appropriately configured everything for security and to match your dev requirements.
+In the playbook root there is a `hosts.orig` file, copy this and name it `hosts`.  When you open the file the defaults are for the VM if you want to spin up a VM with the playbooks.
 
-### Ansible.cfg
+However you'll most likely want to add a server(s) that you want to provision so go ahead and add the IP address under the all/web group.
 
-You probably won't need to touch this file but in case you do refer to the [ansible docs](http://docs.ansible.com/ansible/intro_configuration.html) for info.
-
-The only key thing to note here is that the file refers to a .vault_pass file.  
-The file contains a single line which is the password to encrypt/unencrypt sensitive information.
-
-**Never** add this to your VCS as you will effectively be giving the password to your `ansible-vault`. secured files.
+Once you've done that you should be good here.
 
 <br>
 
-### hosts
+## Provisioning - provision.yml
 
-Here you need to specify the hosts you want to run which/what on.
+This is the entry point for the playbook when you tell ansible to begin execution.  In this file the seperate provisioning blocks are setup already with the tasks that need to be run and in what order, so you shouldn't need to edit this file.
 
-**Finish this documentation**
+By default everything will get executed when running this playbook with the following:
 
-<br>
+`ansible-playbook --private-key ~/.ssh/id_testapp -i hosts provision.yml` 
 
-### provision.yml
-
-This file is the main entry point when you exectute the play-book, and is seperated by block  
-of hosts.  These allow you to specify different groups of hosts to run everything on.
-
-By default everything will get executed when running this playbook with the following `ansible-playbook --private-key=~/.ssh/id_testapp -i hosts provision.yml`. 
-
-If for some reason you don't want to run everything in the playbook you can specify  
-your own series of hosts to run by using something like the following
+If for some reason you don't want to run everything in the playbook you can specify your own series of hosts to run by using something like the following
 
 <br>
 
