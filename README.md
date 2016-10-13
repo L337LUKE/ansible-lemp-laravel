@@ -18,6 +18,7 @@ Install these first
 - [Vagrant](https://www.vagrantup.com/downloads.html)  
 - [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-on-mac-osx)
 
+<br>
 
 ## Installation
 
@@ -144,10 +145,6 @@ By default everything will get executed when running this playbook with the foll
 `ansible-playbook --private-key ~/.ssh/id_testapp -i hosts provision.yml` 
 
 If for some reason you don't want to run everything in the playbook you can specify your own series of hosts to run by using something like the following
-
-<br>
-
-`ansible-playbook --private-key=~/.ssh/id_testapp -i hosts provision.yml`
 
 <br>
 
