@@ -12,7 +12,7 @@
 
 - name: Install Packages | apt
   apt:
-    state: installed
+    state: present
     pkg: "{{ item }}"
   with_items:
     - python-mysqldb
@@ -28,10 +28,36 @@
     - software-installation
     - using-apt
 
+- name: Add conf file
+  template:
+    src: my.conf.j2
+    dest: /etc/.my.cnf
+    owner: root
+    group: root
+  when: mariadb_server
+
+- name: Update Root User
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ vault_database_root_password }}"
+    login_user: root
+    login_password: "{{ vault_database_root_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost 
+  when: mariadb_server
+
 - name: Create Database
   mysql_db:
     state: present
     name: "{{ database_name | default(project) }}"
+    login_user: root
+    login_password: "{{ database_root_password }}"
   when: mariadb_server
 
 - name: Create Database User
@@ -41,6 +67,8 @@
     password: "{{ database_password | mandatory }}"
     priv: "mysql.*:ALL/{{ project }}.*:ALL"
     host: "%"
+    login_user: root
+    login_password: "{{ database_root_password }}"
   when: mariadb_server
 
 - name: Install Packages | apt
