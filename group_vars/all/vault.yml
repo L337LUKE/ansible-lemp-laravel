@@ -10,7 +10,8 @@ vault_appadmin_password: '$6$rounds=656000$0Stciq/f96HRidMV$lC/S/TMH.Db6T0e.vNv7
 vault_appuser_password: '$6$rounds=656000$0Stciq/f96HRidMV$lC/S/TMH.Db6T0e.vNv7Ozl9nUiMyluLldRtb.hWsL5o.x2kaVCjjGg0xbdWFjzHXiYijNUQC6o0NILSoIgTH.'
 
 # mysql user/pass for admin account
-vault_database_password: 'root'
+vault_database_password: root
+vault_database_root_password: root
 
 # Secret for github webhook
 vault_webhook_secret: '24521'

@@ -12,6 +12,8 @@
   become_method: sudo
   roles:
     - server-base
+    - fail2ban 
+    - ferm
     - user
     - nginx
     - php

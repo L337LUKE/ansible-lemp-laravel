@@ -16,6 +16,8 @@ admin_password:   "{{ vault_appadmin_password }}"
 appuser_password: "{{ vault_appuser_password }}"
 
 # MariaDB configurables
+database_root_password: "{{ vault_database_root_password }}"
+
 database_name: testapp
 database_username: testappdbuser
 database_password: "{{ vault_database_password }}" 
@@ -56,3 +58,21 @@ github_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNNRo+iH0pwbEEoex3We/Ta
 # https://help.github.com/articles/creating-an-access-token-for-command-line-use/
 github_token: "{{ vault_github_token }}" 
 
+
+# Basically gets public ip address and whitelists it, permitting access to the server
+# Add further, valid public ip addresses to here if needbe
+ip_whitelist: ["{{ lookup('pipe', 'curl -4 -s https://api.ipify.org') }}"]
+
+# Ferm Security
+# Tweak these settings if required although you probably won't need to
+ferm_input_list:
+  - type: dport_accept
+    dport: [http, https]
+    filename: nginx_accept
+  - type: dport_accept
+    dport: [ssh]
+    saddr: "{{ ip_whitelist }}"
+  - type: dport_limit
+    dport: [ssh]
+    seconds: 300
+    hits: 20
