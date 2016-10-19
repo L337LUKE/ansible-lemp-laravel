@@ -10,19 +10,21 @@ Thre will be an optional extra soon to include;
 
 <br>
 
-## Getting Started
+## TL;DR
 
-Install these first
+Install shit - [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-on-mac-osx)
 
-- [VirtualBox](https://www.virtualbox.org/wiki/Downloads)  
-- [Vagrant](https://www.vagrantup.com/downloads.html)  
-- [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-on-mac-osx)
+Edit to match requirements `group_vars/all/main.yml`
+
+Duplicate and fill out necessary server ip addresses `hosts.orig > hosts`
+
+Generate/save a password using 1password and place it in a `.vault_pass` file
+
+Edit then encrypt the `group_vars/all/vault.yml` file.
+
+provision that shit `ansible-playbook`
 
 <br>
-
-## Installation
-
-First of all take a look at the `group_vars/all/main.yml` which is you will need to update with your project specific configuration.
 
 ## Ansible-Vault & Security
 
@@ -92,6 +94,8 @@ ssh-keygen -t rsa -b 4096 -C "example@example.com" -f ~/.ssh/id_testapp
 ssh-keygen -t rsa -b 4096 -C "example@example.com" -f ~/.ssh/id_testapp_github
 ```
 
+<br>
+
 Once you've done this, place the raw public key files into the `group_vars/all/main.yml` file
 and the easiest way to do this is.
 
@@ -101,6 +105,7 @@ $ cat ~/.ssh/id_testapp.pub | pbcopy
 
 # Now just paste where appropriate!
 ```
+<br>
 
 ## Running on virtual machine/host
 
@@ -124,7 +129,7 @@ $ vagrant reload --provision
 
 There is an additional config file but you will most likely never need to touch this, but further info for configuring this can be found in the [ansible docs](http://docs.ansible.com/ansible/intro_configuration.html).
 
-**Never** Much like the vault section above never add these to your VCS.
+**Never** Much like the vault section above never add this to your VCS.
 
 <br>
 
@@ -150,30 +155,24 @@ If for some reason you don't want to run everything in the playbook you can spec
 
 <br>
 
-
-
-
 ## Running Ansible
 
 ```bash
-cd ~/path/to/deploy-dist
+cd ~/path/to/playbook-dir
 
 # Check our Yaml Syntax
-
 ansible-playbook --private-key=~/.ssh/id_testapp \
 -i hosts \
 --syntax-check \
 provision.yml
 
 # Run Everything!
-
 ansible-playbook --private-key=~/.ssh/.pem \
 -i hosts \
 provision.yml
 
 # Or, Limit runs by host
 # In this example, we run only load_balancer tasks
-
 ansible-playbook --private-key=~/.ssh/fideloperllc.pem \
 -i hosts --limit=load_balancer \
 provision.yml
